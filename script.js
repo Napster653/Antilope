@@ -1,7 +1,9 @@
-const allTds = document.getElementsByTagName("td");
+const allTds = Array.from(document.getElementsByTagName("td"));
 for (i in allTds) {
-    allTds[i].onmouseover = function (e) { highlightThis(e) };
-    allTds[i].onmouseout = function () { unHighlightAll() };
+    if (allTds[i].matches("table tr td table tr td")) {
+        allTds[i].onmouseover = function (e) { highlightThis(e) };
+        allTds[i].onmouseout = function () { unHighlightAll() };
+    }
 }
 
 function highlightThis(e) {
@@ -11,10 +13,10 @@ function highlightThis(e) {
     var malla;
 
     if (target.innerHTML.includes("PRC343-")) {
-        malla = target.innerHTML.replace("PRC343-", "");
         for (let i = 0; i < allTds.length; i++) {
-            if (allTds[i].innerHTML.includes(malla)) {
+            if (allTds[i].innerHTML == target.innerHTML) {
                 allTds[i].style.backgroundColor = "#E1BE6A";
+                allTds[i].parentElement.parentElement.parentElement.parentElement.style.backgroundColor = "#E1BE6A";
             }
         }
     }
@@ -40,6 +42,6 @@ function highlightThis(e) {
 
 function unHighlightAll() {
     for (let i = 0; i < allTds.length; i++) {
-        allTds[i].style.backgroundColor = "white";
+        allTds[i].style.backgroundColor = "";
     }
 }
